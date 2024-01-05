@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GUI implements ActionListener {
+public class GUI implements ActionListener, KeyListener {
     public GUI() {
         init();
     }
@@ -13,6 +13,10 @@ public class GUI implements ActionListener {
         frame.setSize(500, 400);
         frame.setLocation(300, 50);
 
+        JTextField input = new JTextField();
+        JPanel top = new JPanel();
+        top.add(input);
+
 
         frame.setVisible(true);
     }
@@ -22,4 +26,18 @@ public class GUI implements ActionListener {
 
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }
