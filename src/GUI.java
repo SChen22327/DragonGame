@@ -13,11 +13,11 @@ public class GUI implements ActionListener, KeyListener {
         frame.setSize(500, 400);
         frame.setLocation(300, 50);
 
-        JTextField input = new JTextField();
+        JTextField input = new JTextField(30);
         JPanel top = new JPanel();
         top.add(input);
 
-
+        frame.add(top, BorderLayout.NORTH);
         frame.setVisible(true);
     }
 
