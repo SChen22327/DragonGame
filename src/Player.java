@@ -32,6 +32,22 @@ public class Player {
         health += healAmt;
     }
 
+    public int useHPPot() {
+        if (hpPot) {
+            int healAmt = (100 - health) / 2;
+            health += healAmt;
+            hpPot = false;
+            return healAmt;
+        }
+        return 0;
+    }
+
+    public void printPlayerStats() {
+        System.out.println("Name: " + name);
+        System.out.println("Health: " + health);
+        System.out.println("Gold: " + gold);
+        System.out.println("Has HP Pot: " + hpPot);
+    }
     public void printSwordStats() {
         System.out.println(sword.swordStats());
     }
