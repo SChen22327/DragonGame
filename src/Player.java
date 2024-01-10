@@ -8,7 +8,7 @@ public class Player {
         health = 100;
         sword = new Sword();
         this.name = name;
-        //gold = idk;
+        gold = 50;
         hpPot = false;
     }
 
@@ -26,6 +26,11 @@ public class Player {
              return true;
         }
         return false;
+    }
+    
+    public void setGold(int incrememnt) {
+        gold += incrememnt;
+        System.out.println("You got " + incrememnt + " gold. You now have " + gold + " gold.1");
     }
 
     public void heal(int healAmt) {
