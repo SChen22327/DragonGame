@@ -20,7 +20,7 @@ public class Player {
         health -= dmg;
     }
 
-    public boolean checkDead() {
+    public boolean isDead() {
         if (health <= 0) {
              health = 0;
              return true;
@@ -28,18 +28,22 @@ public class Player {
         return false;
     }
     
-    public void setGold(int incrememnt) {
-        gold += incrememnt;
-        System.out.println("You got " + incrememnt + " gold. You now have " + gold + " gold.1");
-    }
+    public void increaseGold(int increment) {
+        gold += increment;
+        System.out.println("You got " + increment + " gold. You now have " + gold + " gold.");
+}
 
     public void heal(int healAmt) {
         health += healAmt;
+        if (health > 150) {
+            health = 150;
+        }
+        System.out.println("You were healed for " + healAmt + " HP. Your current HP: " + health + ".");
     }
 
     public int useHPPot() {
         if (hpPot) {
-            int healAmt = (100 - health) / 2;
+            int healAmt = (150 - health) / 2;
             health += healAmt;
             hpPot = false;
             return healAmt;

@@ -1,20 +1,16 @@
 public class Dragon {
     private int health;
     private int level;
-    private Sword sword;
-    private Player player;
-    public Dragon(Sword sword, Player player) {
+    public Dragon() {
         level = (int) (Math.random() * 3) + 1;
         health = 100;
-        this.sword = sword;
-        this.player = player;
     }
 
     public int attack() {
         return (int) (Math.random() * 10 * level) + level;
     }
 
-    public void takeDMG(int dmg) {
+    public void takeDMG(int dmg, Sword sword,Player player) {
         health -= dmg;
         if (checkDead()) {
             int random = (int) (Math.random() * 4) + 1;
@@ -22,7 +18,13 @@ public class Dragon {
                 sword.upgrade();
             }
             if (random == 2) {
-                player.setGold((int) (Math.random() * 51) + 5 * level);
+                player.increaseGold((int) (Math.random() * 51) + 5 * level);
+            }
+            if (random == 3) {
+                player.heal((int) (Math.pow(level, 4) * 2));
+            }
+            if (random == 4) {
+                System.out.println("You couldn't find anything...");
             }
         }
     }
