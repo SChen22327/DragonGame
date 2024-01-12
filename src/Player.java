@@ -30,7 +30,7 @@ public class Player {
     
     public void increaseGold(int increment) {
         gold += increment;
-        System.out.println("You got " + increment + " gold. You now have " + gold + " gold.");
+        System.out.println("I got " + increment + " gold! \nYou now have " + gold + " gold.");
 }
 
     public void heal(int healAmt) {
@@ -43,11 +43,19 @@ public class Player {
 
     public int useHPPot() {
         if (hpPot) {
-            int healAmt = (150 - health) / 2;
-            health += healAmt;
+            if (health == 150) {
+                System.out.println("I'm at max health. I hastily put my HP Pot away.");
+                return 0;
+            }
+            int healAmt = (150 - health);
+            if (healAmt > 50) {
+                healAmt = 50;
+            }
+            heal(healAmt);
             hpPot = false;
             return healAmt;
         }
+        System.out.println("I searched my bag but nothing turns up. It appears I don't have one.");
         return 0;
     }
 
