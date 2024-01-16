@@ -15,14 +15,23 @@ public class ItemInfo {
     public boolean hasItem() {
         return hasItem;
     }
+    public boolean hasEnough(int gold) {
+        return gold >= cost;
+    }
     public String getName() {
         return name;
     }
     public int getAmountOwned() {
         return amountOwned;
     }
-    public void incrementAmountOwned(boolean enoughMoney) {
+    public void incrementAmountOwned() {
         amountOwned++;
+        hasItem = true;
+    }
+    public void incrementAmountOwned(Player player) {
+        player.loseGold(cost);
+        amountOwned++;
+        hasItem = true;
     }
     public String getInfo() {
         String str = name;

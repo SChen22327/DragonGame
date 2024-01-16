@@ -1,9 +1,13 @@
 public class Dragon {
     private int health;
     private int level;
-    public Dragon() {
+    public Dragon(boolean lost) {
         level = (int) (Math.random() * 3) + 1;
+        if (lost) {
+            level = 3;
+        }
         health = 100 + (50 * level);
+
     }
 
     public int attack() {

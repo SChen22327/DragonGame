@@ -12,6 +12,12 @@ public class Player {
         hpPot = false;
     }
 
+    public int getGold() {
+        return gold;
+    }
+    public void loseGold(int lost) {
+        gold -= lost;
+    }
     public int attack() {
         return sword.getAtk();
     }
@@ -41,22 +47,19 @@ public class Player {
         System.out.println("You were healed for " + healAmt + " HP. Your current HP: " + health + ".");
     }
 
-    public int useHPPot() {
+    public void useHPPot() {
         if (hpPot) {
             if (health == 150) {
                 System.out.println("I'm at max health. I hastily put my HP Pot away.");
-                return 0;
             }
             int healAmt = (150 - health);
-            if (healAmt > 50) {
-                healAmt = 50;
+            if (healAmt > 75) {
+                healAmt = 75;
             }
             heal(healAmt);
             hpPot = false;
-            return healAmt;
         }
         System.out.println("I searched my bag but nothing turns up. It appears I don't have one.");
-        return 0;
     }
 
     public void printPlayerStats() {
