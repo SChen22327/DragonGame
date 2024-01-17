@@ -2,13 +2,17 @@ import java.util.Scanner;
 public class DragonSlayer {
     private ItemInfo[] items;
     private Scanner scan;
+    private Room currentRoom;
     public DragonSlayer() {
         createItemList();
         scan = new Scanner(System.in);
     }
 
     public void play() {
-
+        System.out.println("After a long day's journey, I have finally arrived at the dragons' lair.");
+        Utility.sleep(1500);
+        currentRoom = Room.enter();
+        System.out.println("You have entered Room " + Room.getRoom());
     }
 
     private void createItemList() {

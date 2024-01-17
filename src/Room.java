@@ -1,11 +1,14 @@
 public class Room {
     public static String[] names = new String[]{"The Entrance", "The Nursery", "The Den", "The Nest", "L̸̬̬͋͗̄̋̃o̶͎̦̎̅͋͘ş̸̗̬͇͎̖̞̀̈́͘ț̷̍ Corridor", "The Center"};
+    private static int room = 0;
     private Dragon[] dragons;
     private int remaining;
     private Dragon currentFight;
     private String roomName;
 
-    public Room(int rmNum) {
+    public Room() {
+        room++;
+        int rmNum = room;
         roomName = names[rmNum];
         boolean lost = rmNum == 5 && (int) (Math.random() * 10) == 0;
         //Lost adds a somewhat creepy aspect to the 5th room in addition to the name, makes all dragons level 3
@@ -21,8 +24,12 @@ public class Room {
         currentFight = dragons[0];
     }
 
-    public void enter() {
+    public static Room enter() { //IDK WHAT TO DO HERE
+        return new Room();
+    }
 
+    public static int getRoom() {
+        return room;
     }
     public void search(ItemInfo hpPot) {
         int random = (int) (Math.random() * 5);
