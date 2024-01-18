@@ -33,10 +33,16 @@ public class ItemInfo {
         amountOwned++;
         hasItem = true;
     }
+    public void decreaseAmountOwned() {
+        amountOwned--;
+        if (amountOwned == 0) {
+            hasItem = false;
+        }
+    }
     public String getInfo() {
-        String str = name;
+        String str = "name";
         str += "\n -" + cost + " gold";
-        str += "\n -" + description;
+        str += "\n -" + description + "\n";
         return str;
     }
 }

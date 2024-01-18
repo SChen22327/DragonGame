@@ -38,6 +38,17 @@ public class Sword {
         }
     }
 
+    public void increaseAtk(int amt) {
+        atk += amt;
+        System.out.println("Your sword's attack has been upgraded to " + atk + ".");
+    }
+    public void increaseDodge(int amt) {
+
+    }
+    public void increaseCrit(int amt) {
+
+    }
+
     public String swordStats() {
         String str = "--Current stats--";
         str += "\nAttack: " + atk;

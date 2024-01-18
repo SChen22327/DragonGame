@@ -36,7 +36,7 @@ public class Player {
     
     public void increaseGold(int increment) {
         gold += increment;
-        System.out.println("I got " + increment + " gold! \nYou now have " + gold + " gold.");
+        System.out.println("I got " + increment + " gold!\nCurrent Gold:" + gold + " gold");
 }
 
     public void heal(int healAmt) {
@@ -44,11 +44,11 @@ public class Player {
         if (health > 150) {
             health = 150;
         }
-        System.out.println("You were healed for " + healAmt + " HP. Your current HP: " + health + ".");
+        System.out.println("I healed for " + healAmt + " HP.\nCurrent HP: " + health);
     }
 
-    public void useHPPot() {
-        if (hpPot) {
+    public void useHPPot(ItemInfo hpPot) {
+        if (hpPot.hasItem()) {
             if (health == 150) {
                 System.out.println("I'm at max health. I hastily put my HP Pot away.");
             }
@@ -57,9 +57,12 @@ public class Player {
                 healAmt = 75;
             }
             heal(healAmt);
-            hpPot = false;
+            hpPot.decreaseAmountOwned();
         }
-        System.out.println("I searched my bag but nothing turns up. It appears I don't have one.");
+        System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+    }
+    public void useStrengthPotion(ItemInfo strength) {
+        sword.
     }
 
     public void printPlayerStats() {
