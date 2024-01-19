@@ -43,10 +43,12 @@ public class Sword {
         System.out.println("Your sword's attack has been upgraded to " + atk + ".");
     }
     public void increaseDodge(int amt) {
-
+        dodge += amt;
+        System.out.println("Your dodge rate has increased to " + dodge + "%.");
     }
     public void increaseCrit(int amt) {
-
+        crit += amt;
+        System.out.println("Your critical hit rate has increased to " + crit + "%.");
     }
 
     public String swordStats() {

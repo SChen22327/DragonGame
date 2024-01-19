@@ -4,12 +4,16 @@ public class Player {
     private Sword sword;
     private int gold;
     private boolean hpPot;
+    private boolean armour;
+    private boolean machineGun;
     public Player(String name) {
         health = 100;
         sword = new Sword();
         this.name = name;
         gold = 50;
         hpPot = false;
+        armour = false;
+        machineGun = false;
     }
 
     public int getGold() {
@@ -23,7 +27,15 @@ public class Player {
     }
 
     public void takeDMG(int dmg) {
-        health -= dmg;
+        int breakChance = (int) (Math.random() * 5);
+        if (armour) {
+            health -= (int) (dmg * 0.85);
+            if (breakChance == 0) {
+                armour = false;
+            }
+        } else {
+            health -= dmg;
+        }
     }
 
     public boolean isDead() {
@@ -58,11 +70,48 @@ public class Player {
             }
             heal(healAmt);
             hpPot.decreaseAmountOwned();
+        } else {
+            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
         }
-        System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
     }
     public void useStrengthPotion(ItemInfo strength) {
-        sword.
+        if (strength.hasItem()) {
+            sword.increaseAtk(15);
+            strength.decreaseAmountOwned();
+        } else {
+            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+        }
+    }
+    public void useFocusPotion(ItemInfo focus) {
+        if (focus.hasItem()) {
+            sword.increaseDodge(5);
+            focus.decreaseAmountOwned();
+        } else {
+            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+        }
+    }
+    public void useBook(ItemInfo book) {
+        if (book.hasItem()) {
+            sword.increaseCrit(5);
+            book.decreaseAmountOwned();
+        } else {
+            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+        }
+    }
+    public void useArmour(ItemInfo armour) {
+        if (armour.hasItem()) {
+            this.armour = true;
+            armour.decreaseAmountOwned();
+        } else {
+            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+        }
+    }
+    public void toggleMachineGun(ItemInfo machineGun) {
+        if (machineGun.hasItem()) {
+            this.machineGun = !this.machineGun;
+        } else {
+            System.out.println("THEY HAVE A MACHINE GUN?! WHAT?! I NEED TO GO TO THE SHOP AND BUY ONE ASAP!!!");
+        }
     }
 
     public void printPlayerStats() {

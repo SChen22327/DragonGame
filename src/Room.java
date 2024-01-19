@@ -2,7 +2,7 @@ public class Room {
     public static String[] names = new String[]{"The Entrance", "The Nursery", "The Den", "The Nest", "L̸̬̬͋͗̄̋̃o̶͎̦̎̅͋͘ş̸̗̬͇͎̖̞̀̈́͘ț̷̍ Corridor", "The Center"};
     private static int room = 0;
     private Dragon[] dragons;
-    private Dragon currentFight;
+    private int currentFight;
     private int remaining;
     private String roomName;
     private boolean searched;
@@ -22,11 +22,11 @@ public class Room {
             dragons[i] = new Dragon(lost);
         }
         remaining = dragons.length;
-        currentFight = dragons[0];
+        currentFight = 0;
         searched = false;
     }
 
-    public static Room enter() { //IDK WHAT TO DO HERE
+    public static Room enter() {
         Room room = new Room();
         System.out.println("You have entered Room " + getRoom() + ", " + room.getRoomName());
         return new Room();
