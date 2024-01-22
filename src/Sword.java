@@ -13,7 +13,7 @@ public class Sword {
         if (crit >= random) {
             return atk * 2;
         }
-        return atk + random / atk;
+        return atk + (int) Math.sqrt(random);
     }
 
     public void upgrade() {

@@ -45,10 +45,4 @@ public class ItemInfo {
         str += "\n -" + description + "\n";
         return str;
     }
-
-    public static void checkInventory(ItemInfo[] itemList) {
-        for (ItemInfo item : itemList) {
-            System.out.println(item.getInfo() + "---------------");
-        }
-    }
 }

@@ -31,6 +31,18 @@ public class Room {
         System.out.println("You have entered Room " + getRoom() + ", " + room.getRoomName());
         return new Room();
     }
+
+    public void dragonDied() {
+        remaining--;
+        currentFight++;
+    }
+    public Dragon nextDragon() {
+        if (remaining == 0) {
+            return null;
+        }
+        currentFight++;
+        return dragons[currentFight];
+    }
     public boolean dragonsDead() {
         boolean allDead = true;
         for (Dragon dragon : dragons) {

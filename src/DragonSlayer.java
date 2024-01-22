@@ -21,6 +21,14 @@ public class DragonSlayer {
         currentRoom = Room.enter();
         while (!gameOver) {
             gameOver = menu();
+
+
+
+
+
+            if (player.isDead()) {
+                gameOver = true;
+            }
         }
     }
 
@@ -38,24 +46,39 @@ public class DragonSlayer {
             currentRoom.search(inventory[0]);
             return false;
         } else if (choice == 2) {
-            currentRoom.search(inventory[0]);
+            shop.menu(player);
             return false;
         } else if (choice == 3) {
-            ItemInfo.checkInventory(inventory);
+            inventory();
             return false;
         } else if (choice == 4) {
-
+            int dmg = player.attack();
+            System.out.println("You deal " + dmg + " damage to the dragon.");
+            currentDragon.takeDMG(dmg, player);
+            if (currentDragon.checkDead()) {
+                currentRoom.dragonDied();
+                Dragon nextDragon = currentRoom.nextDragon();
+                if (nextDragon == null) {
+                    System.out.println("All dragons have been slain.");
+                    if (Room.getRoom() == 6) {
+                        return true;
+                    } else {
+                        System.out.println("Move onto the next room whenever you're ready.");
+                    }
+                } else {
+                    currentDragon = nextDragon;
+                }
+            }
             return false;
         } else if (choice == 5) {
-            if (currentRoom.dragonsDead()) {
+            if (currentRoom.dragonsDead() && Room.getRoom() != 6) {
                 currentRoom = Room.enter();
             }
             return false;
-        } else if (choice == 6) {
+        } else {
             return true;
         }
     }
-
 
     private void createItemList() {
         inventory = new ItemInfo[6];
@@ -69,8 +92,7 @@ public class DragonSlayer {
 
     private void inventory() {
         System.out.println("--You currently have--");
-        for (int i = 0; i < inventory.length; i++) {
-            ItemInfo item = inventory[i];
+        for (ItemInfo item : inventory) {
             if (item.hasItem()) {
                 System.out.println(item.getInfo());
             }

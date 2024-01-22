@@ -14,9 +14,10 @@ public class Dragon {
         return (int) (Math.random() * 10 * level) + level;
     }
 
-    public void takeDMG(int dmg, Sword sword,Player player) {
+    public void takeDMG(int dmg, Player player) {
         health -= dmg;
         if (checkDead()) {
+            Sword sword = player.getSword();
             int random = (int) (Math.random() * 4) + 1;
             if (random == 1) {
                 sword.upgrade();

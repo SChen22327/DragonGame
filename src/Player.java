@@ -19,18 +19,23 @@ public class Player {
     public int getGold() {
         return gold;
     }
+    public Sword getSword() {
+        return sword;
+    }
     public void loseGold(int lost) {
         gold -= lost;
     }
     public int attack() {
+        if (machineGun) {
+            return 100;
+        }
         return sword.getAtk();
     }
 
     public void takeDMG(int dmg) {
-        int breakChance = (int) (Math.random() * 5);
         if (armour) {
             health -= (int) (dmg * 0.85);
-            if (breakChance == 0) {
+            if ((int) (Math.random() * 5) == 0) {
                 armour = false;
             }
         } else {
