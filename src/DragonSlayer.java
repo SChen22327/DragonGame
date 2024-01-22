@@ -149,6 +149,7 @@ public class DragonSlayer {
     }
 
     public static void addToNews(String addition) {
+        it didnt work
         newsMessage += "\n" + addition;
     }
 }
