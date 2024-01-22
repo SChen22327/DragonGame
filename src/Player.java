@@ -3,7 +3,6 @@ public class Player {
     private int health;
     private Sword sword;
     private int gold;
-    private boolean hpPot;
     private boolean armour;
     private boolean machineGun;
     public Player(String name) {
@@ -11,7 +10,6 @@ public class Player {
         sword = new Sword();
         this.name = name;
         gold = 50;
-        hpPot = false;
         armour = false;
         machineGun = false;
     }
@@ -53,7 +51,7 @@ public class Player {
     
     public void increaseGold(int increment) {
         gold += increment;
-        System.out.println("I got " + increment + " gold!\nCurrent Gold:" + gold + " gold");
+        DragonSlayer.addToNews("I got " + increment + " gold!\nCurrent Gold:" + gold + " gold");
 }
 
     public void heal(int healAmt) {
@@ -61,13 +59,13 @@ public class Player {
         if (health > 150) {
             health = 150;
         }
-        System.out.println("I healed for " + healAmt + " HP.\nCurrent HP: " + health);
+        DragonSlayer.addToNews("I healed for " + healAmt + " HP.\nCurrent HP: " + health);
     }
 
     public void useHPPot(ItemInfo hpPot) {
         if (hpPot.hasItem()) {
             if (health == 150) {
-                System.out.println("I'm at max health. I hastily put my HP Pot away.");
+                DragonSlayer.addToNews("I'm at max health. I hastily put my HP Pot away.");
             }
             int healAmt = (150 - health);
             if (healAmt > 75) {
@@ -76,7 +74,7 @@ public class Player {
             heal(healAmt);
             hpPot.decreaseAmountOwned();
         } else {
-            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
         }
     }
     public void useStrengthPotion(ItemInfo strength) {
@@ -84,7 +82,7 @@ public class Player {
             sword.increaseAtk(15);
             strength.decreaseAmountOwned();
         } else {
-            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
         }
     }
     public void useFocusPotion(ItemInfo focus) {
@@ -92,7 +90,7 @@ public class Player {
             sword.increaseDodge(5);
             focus.decreaseAmountOwned();
         } else {
-            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
         }
     }
     public void useBook(ItemInfo book) {
@@ -100,7 +98,7 @@ public class Player {
             sword.increaseCrit(5);
             book.decreaseAmountOwned();
         } else {
-            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
         }
     }
     public void useArmour(ItemInfo armour) {
@@ -108,24 +106,24 @@ public class Player {
             this.armour = true;
             armour.decreaseAmountOwned();
         } else {
-            System.out.println("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
         }
     }
     public void toggleMachineGun(ItemInfo machineGun) {
         if (machineGun.hasItem()) {
             this.machineGun = !this.machineGun;
         } else {
-            System.out.println("THEY HAVE A MACHINE GUN?! WHAT?! I NEED TO GO TO THE SHOP AND BUY ONE ASAP!!!");
+            DragonSlayer.addToNews("THEY HAVE A MACHINE GUN?! WHAT?! I NEED TO GO TO THE SHOP AND BUY ONE ASAP!!!");
         }
     }
 
     public void printPlayerStats() {
         System.out.println("Name: " + name);
-        System.out.println("Health: " + health);
-        System.out.println("Gold: " + gold);
-        System.out.println("Has HP Pot: " + hpPot);
+        System.out.println("Health: " + health + "/150");
+        System.out.println("Gold: " + gold + "\n");
     }
     public void printSwordStats() {
         System.out.println(sword.swordStats());
+        System.out.println("\nMachine gun: " + machineGun + "\n");
     }
 }

@@ -29,7 +29,7 @@ public class Dragon {
                 player.heal((int) (Math.pow(level, 4) * 2));
             }
             if (random == 4) {
-                System.out.println("You couldn't find anything...");
+                DragonSlayer.addToNews("After searching the dragon's remains, you couldn't find anything...");
             }
         }
     }
@@ -40,5 +40,11 @@ public class Dragon {
             return true;
         }
         return false;
+    }
+
+    public String dragonStats() {
+        String str = "Level: " + level;
+        str += "\nHealth: " + health + "\n";
+        return str;
     }
 }

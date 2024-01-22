@@ -3,7 +3,6 @@ public class Room {
     private static int room = 0;
     private Dragon[] dragons;
     private int currentFight;
-    private int remaining;
     private String roomName;
     private boolean searched;
 
@@ -21,25 +20,20 @@ public class Room {
         for (int i = 0; i < rmNum + 1; i++) {
             dragons[i] = new Dragon(lost);
         }
-        remaining = dragons.length;
-        currentFight = 0;
+        currentFight = -1;
         searched = false;
     }
 
     public static Room enter() {
         Room room = new Room();
-        System.out.println("You have entered Room " + getRoom() + ", " + room.getRoomName());
+        DragonSlayer.addToNews("You have entered Room " + getRoom() + ", " + room.getRoomName());
         return new Room();
     }
 
     public void dragonDied() {
-        remaining--;
         currentFight++;
     }
     public Dragon nextDragon() {
-        if (remaining == 0) {
-            return null;
-        }
         currentFight++;
         return dragons[currentFight];
     }
@@ -65,12 +59,12 @@ public class Room {
             int random = (int) (Math.random() * 5);
             if (random == 0) {
                 hpPot.incrementAmountOwned();
-                System.out.println("Cool, I found an HP Pot tucked behind a random cobweb. Now I have " + hpPot.getAmountOwned() + ".");
+                DragonSlayer.addToNews("Cool, I found an HP Pot tucked behind a random cobweb. Now I have " + hpPot.getAmountOwned() + ".");
             } else {
-                System.out.println("After spending a few minutes searching the room, I found nothing.");
+                DragonSlayer.addToNews("After spending a few minutes searching the room, I found nothing.");
             }
         } else {
-            System.out.println("I already searched the room, I am NOT spending another hour looking at dust.");
+            DragonSlayer.addToNews("I already searched the room, I am NOT spending another hour looking at dust.");
         }
     }
 }

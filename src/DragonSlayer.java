@@ -1,3 +1,6 @@
+import jdk.jshell.execution.Util;
+
+import java.util.Objects;
 import java.util.Scanner;
 public class DragonSlayer {
     private ItemInfo[] inventory;
@@ -6,29 +9,52 @@ public class DragonSlayer {
     private Dragon currentDragon;
     private Player player;
     private Shop shop;
+    private boolean startedFight;
+    private static String newsMessage;
     public DragonSlayer() {
         createItemList();
         scan = new Scanner(System.in);
         shop = new Shop(inventory, scan);
+        startedFight = false;
+        newsMessage = "";
     }
 
     public void play() {
-        System.out.println("What is your name, adventurer? ");
+        System.out.print("What is your name, adventurer? ");
         player = new Player(scan.nextLine());
-        System.out.println("\nAfter a long day's journey, I have finally arrived at the dragons' lair, ready to make a name for myself.");
-        Utility.sleep(1500);
+        newsMessage += "\nAfter a long day's journey, I have finally arrived at the dragons' lair, ready to make a name for myself.";
         boolean gameOver = false;
         currentRoom = Room.enter();
+        currentDragon = currentRoom.nextDragon();
         while (!gameOver) {
+            Utility.clearScreen();
+            System.out.println(newsMessage + "\n");
+            newsMessage = "";
+            player.printPlayerStats();
+            player.printSwordStats();
+            currentDragon.dragonStats();
             gameOver = menu();
-
-
-
-
-
-            if (player.isDead()) {
-                gameOver = true;
+            if (startedFight) {
+                int dmg = currentDragon.attack();
+                player.takeDMG(dmg);
+                if (player.isDead()) {
+                    gameOver = true;
+                }
+                System.out.println();
             }
+        }
+        if (!player.isDead()) {
+            System.out.println("Hooray, I cleared all the rooms and killed all the dragons!");
+            Utility.sleep(1500);
+            System.out.println("W-wait, why am I getting arrested?");
+            Utility.sleep(1000);
+            System.out.println("Killing all those dragons is considered mass murder?");
+            Utility.sleep(500);
+            System.out.println("I'm innocent, I swear!\n");
+            System.out.println("\uD83D\uDC51\uD83D\uDE93" + Utility.RED + "You win?" + Utility.RESET + "\uD83D\uDE93\uD83D\uDC51");
+        } else {
+            System.out.println("Noooo...I don't want to die...before...I search every...room...*passes away cutely*");
+            System.out.println("Game Over: You died and now you're dead");
         }
     }
 
@@ -39,9 +65,9 @@ public class DragonSlayer {
         System.out.println("(4) Fight");
         System.out.println("(5) Enter next room(all dragons in the current room must be defeated)");
         System.out.println("(6) Give up");
-        System.out.println("Enter the number of what you want to do: ");
+        System.out.print("Enter the number of what you want to do: ");
         int choice = scan.nextInt();
-        scan.next();
+        scan.nextLine();
         if (choice == 1) {
             currentRoom.search(inventory[0]);
             return false;
@@ -52,13 +78,13 @@ public class DragonSlayer {
             inventory();
             return false;
         } else if (choice == 4) {
+            startedFight = true;
             int dmg = player.attack();
             System.out.println("You deal " + dmg + " damage to the dragon.");
             currentDragon.takeDMG(dmg, player);
             if (currentDragon.checkDead()) {
                 currentRoom.dragonDied();
-                Dragon nextDragon = currentRoom.nextDragon();
-                if (nextDragon == null) {
+                if (currentRoom.dragonsDead()) {
                     System.out.println("All dragons have been slain.");
                     if (Room.getRoom() == 6) {
                         return true;
@@ -66,7 +92,7 @@ public class DragonSlayer {
                         System.out.println("Move onto the next room whenever you're ready.");
                     }
                 } else {
-                    currentDragon = nextDragon;
+                    currentDragon = currentRoom.nextDragon();;
                 }
             }
             return false;
@@ -76,6 +102,7 @@ public class DragonSlayer {
             }
             return false;
         } else {
+            System.out.println("The dragon takes a final slash at you, fatally wounding you.\nOh no, you're bleeding out.");
             return true;
         }
     }
@@ -119,5 +146,9 @@ public class DragonSlayer {
                 player.toggleMachineGun(inventory[5]);
             }
         }
+    }
+
+    public static void addToNews(String addition) {
+        newsMessage += "\n" + addition;
     }
 }
