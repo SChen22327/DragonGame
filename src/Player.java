@@ -59,7 +59,7 @@ public class Player {
         if (health > 150) {
             health = 150;
         }
-        DragonSlayer.addToNews("I healed for " + healAmt + " HP.\nCurrent HP: " + health);
+        DragonSlayer.addToNews("I healed for " + healAmt + " HP.");
     }
 
     public void useHPPot(ItemInfo hpPot) {
@@ -124,6 +124,6 @@ public class Player {
     }
     public void printSwordStats() {
         System.out.println(sword.swordStats());
-        System.out.println("\nMachine gun: " + machineGun + "\n");
+        System.out.println("Machine gun: " + machineGun + "\n");
     }
 }

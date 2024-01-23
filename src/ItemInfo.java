@@ -26,6 +26,9 @@ public class ItemInfo {
     }
     public void incrementAmountOwned() {
         amountOwned++;
+        if (amountOwned > 5) {
+            amountOwned = 5;
+        }
         hasItem = true;
     }
     public void incrementAmountOwned(Player player) {
@@ -40,7 +43,7 @@ public class ItemInfo {
         }
     }
     public String getInfo() {
-        String str = "name";
+        String str = name;
         str += "\n -" + cost + " gold";
         str += "\n -" + description + "\n";
         return str;

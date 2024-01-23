@@ -3,6 +3,7 @@ public class Room {
     private static int room = 0;
     private Dragon[] dragons;
     private int currentFight;
+    private int remaining;
     private String roomName;
     private boolean searched;
 
@@ -21,6 +22,7 @@ public class Room {
             dragons[i] = new Dragon(lost);
         }
         currentFight = -1;
+        remaining = dragons.length + 1;
         searched = false;
     }
 
@@ -30,11 +32,9 @@ public class Room {
         return new Room();
     }
 
-    public void dragonDied() {
-        currentFight++;
-    }
     public Dragon nextDragon() {
         currentFight++;
+        remaining--;
         return dragons[currentFight];
     }
     public boolean dragonsDead() {
@@ -46,7 +46,9 @@ public class Room {
         }
         return allDead;
     }
-
+    public int getRemaining() {
+        return remaining;
+    }
     public static int getRoom() {
         return room;
     }
@@ -57,7 +59,7 @@ public class Room {
         if (!searched) {
             searched = true;
             int random = (int) (Math.random() * 5);
-            if (random == 0) {
+            if (random < 2) {
                 hpPot.incrementAmountOwned();
                 DragonSlayer.addToNews("Cool, I found an HP Pot tucked behind a random cobweb. Now I have " + hpPot.getAmountOwned() + ".");
             } else {

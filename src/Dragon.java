@@ -42,9 +42,9 @@ public class Dragon {
         return false;
     }
 
-    public String dragonStats() {
-        String str = "Level: " + level;
-        str += "\nHealth: " + health + "\n";
-        return str;
+    public void dragonStats() {
+        System.out.println("--Nearest Dragon's stats--");
+        System.out.println("Level: " + level);
+        System.out.println("Health: " + health + "\n");
     }
 }

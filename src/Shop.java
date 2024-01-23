@@ -8,24 +8,25 @@ public class Shop {
     }
 
     public void menu(Player player) {
-        System.out.println();
+        Utility.clearScreen();
+        System.out.println("Items For Sale");
         for (int i = 0; i < items.length; i++) {
             System.out.println("(" + (i + 1) + ") " + items[i].getName());
         }
-        System.out.println("(7) Exit Shop\n");
+        System.out.println("(7) Exit Shop");
         int choice = -1;
         while (choice > 6 || choice == -1) {
             if (choice > 6) {
                 System.out.println("That's not a valid option.");
             }
             System.out.println();
-            System.out.println("Enter the number of the item you'd like to buy: ");
+            System.out.print("Enter the number of the item you'd like to buy: ");
             choice = scan.nextInt() - 1;
-            scan.next();
+            scan.nextLine();
         }
         if (choice != 6) {
             System.out.println(items[choice].getInfo());
-            System.out.println("\nDo you want go through with this purchase? (Y/N): ");
+            System.out.print("\nDo you want go through with this purchase? (Y/N): ");
             String yn = scan.nextLine().toLowerCase();
             if (yn.equals("y")) {
                 if (items[choice].hasEnough(player.getGold())) {
@@ -36,7 +37,7 @@ public class Shop {
                                 menu(player);
                             } else {
                                 items[0].incrementAmountOwned(player);
-                                System.out.println("HP pot added to inventory. Current amount: " + items[0].getAmountOwned());
+                                DragonSlayer.addToNews("HP pot added to inventory. Current amount: " + items[0].getAmountOwned());
                             }
                         } else {
                             System.out.println("You already have a " + items[choice].getName() + ".");
@@ -44,7 +45,7 @@ public class Shop {
                         }
                     } else {
                         items[choice].incrementAmountOwned(player);
-                        System.out.println(items[choice].getName() + " added to inventory.");
+                        DragonSlayer.addToNews(items[choice].getName() + " added to inventory.\nCheck inventory to use/toggle.");
                     }
                 } else {
                     System.out.println("You don't have enough money.");
