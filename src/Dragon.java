@@ -26,7 +26,7 @@ public class Dragon {
                 player.increaseGold((int) (Math.random() * 51) + 5 * level);
             }
             if (random == 3) {
-                player.heal((int) (Math.pow(level, 4) * 2));
+                player.heal((int) Math.pow(level, 3) + 50);
             }
             if (random == 4) {
                 DragonSlayer.addToNews("After searching the dragon's remains, you couldn't find anything...");

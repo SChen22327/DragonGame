@@ -9,7 +9,7 @@ public class Player {
         health = 100;
         sword = new Sword();
         this.name = name;
-        gold = 50;
+        gold = 100;
         armour = false;
         machineGun = false;
     }
@@ -31,19 +31,24 @@ public class Player {
     }
 
     public void takeDMG(int dmg) {
-        if (armour) {
-            dmg *= 0.85;
-            if (dmg == 0) {
-                DragonSlayer.addToNews("Ha, my armour negates the damage. No damage!");
-            } else {
-                health -= (int) (dmg * 0.85);
-                DragonSlayer.addToNews("Ouch, the dragon hits me with " + (int) (dmg * 0.85) + " damage!");
-                if ((int) (Math.random() * 5) == 0) {
-                    armour = false;
+        if (sword.failedDodge()) {
+            if (armour) {
+                dmg *= 0.85;
+                if (dmg == 0) {
+                    DragonSlayer.addToNews("Ha, my armour negates the damage. No damage!");
+                } else {
+                    health -= (int) (dmg * 0.85);
+                    DragonSlayer.addToNews("Ouch, the dragon hits me with " + (int) (dmg * 0.85) + " damage!");
+                    if ((int) (Math.random() * 5) == 0) {
+                        armour = false;
+                    }
                 }
+            } else {
+                health -= dmg;
+                DragonSlayer.addToNews("Ouch, the dragon hits me with " + dmg + " damage!");
             }
         } else {
-            health -= dmg;
+            DragonSlayer.addToNews("At the last second, I dodged and took no damage.");
         }
     }
 
@@ -54,10 +59,10 @@ public class Player {
         }
         return false;
     }
-    
+
     public void increaseGold(int increment) {
         gold += increment;
-        DragonSlayer.addToNews("I got " + increment + " gold!\nCurrent Gold:" + gold + " gold");
+        DragonSlayer.addToNews("I got " + increment + " gold" + "!\nCurrent Gold: " + gold + " gold");
 }
 
     public void heal(int healAmt) {
@@ -80,7 +85,7 @@ public class Player {
             heal(healAmt);
             hpPot.decreaseAmountOwned();
         } else {
-            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");
         }
     }
     public void useStrengthPotion(ItemInfo strength) {
@@ -88,7 +93,7 @@ public class Player {
             sword.increaseAtk(15);
             strength.decreaseAmountOwned();
         } else {
-            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");
         }
     }
     public void useFocusPotion(ItemInfo focus) {
@@ -96,7 +101,7 @@ public class Player {
             sword.increaseDodge(5);
             focus.decreaseAmountOwned();
         } else {
-            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");
         }
     }
     public void useBook(ItemInfo book) {
@@ -104,7 +109,7 @@ public class Player {
             sword.increaseCrit(5);
             book.decreaseAmountOwned();
         } else {
-            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
+            DragonSlayer.addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");
         }
     }
     public void useArmour(ItemInfo armour) {
@@ -113,7 +118,7 @@ public class Player {
             armour.decreaseAmountOwned();
             DragonSlayer.addToNews("I put on my armour, hopefully it doesn't break.");
         } else {
-            DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
+
         }
     }
     public void toggleMachineGun(ItemInfo machineGun) {
@@ -127,7 +132,8 @@ public class Player {
     public void printPlayerStats() {
         System.out.println("Name: " + name);
         System.out.println("Health: " + health + "/150");
-        System.out.println("Gold: " + gold + "\n");
+        System.out.println("Gold: " + gold);
+        System.out.println("Current score: " + Room.getScore() + "\n");
     }
     public void printSwordStats() {
         System.out.println(sword.swordStats());

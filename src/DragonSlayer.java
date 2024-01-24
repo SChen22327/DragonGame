@@ -1,6 +1,3 @@
-import jdk.jshell.execution.Util;
-
-import java.util.Objects;
 import java.util.Scanner;
 public class DragonSlayer {
     private ItemInfo[] inventory;
@@ -17,19 +14,24 @@ public class DragonSlayer {
         shop = new Shop(inventory, scan);
         startedFight = false;
         newsMessage = "";
-        System.out.print("What is your name, adventurer? ");
-        String name = scan.nextLine();
-        player = new Player(name);
     }
 
     public void play() {
-        newsMessage += "\nAfter a long day's journey, I have finally arrived at the dragons' lair, ready to make a name for myself.";
+        Utility.clearScreen();
+        System.out.print("What is your name, adventurer? ");
+        String name = scan.nextLine();
+        player = new Player(name);
+        addToNews("After a long day's journey, I have finally arrived at the dragons' lair, ready to make a name for myself.");
         boolean gameOver = false;
         currentRoom = Room.enter();
         currentDragon = currentRoom.nextDragon();
         while (!gameOver) {
             Utility.clearScreen();
-            System.out.println(newsMessage + "\n");
+            if (newsMessage.isEmpty()) {
+                System.out.println();
+            } else {
+                System.out.println(newsMessage + "\n");
+            }
             newsMessage = "";
             player.printPlayerStats();
             player.printSwordStats();
@@ -46,7 +48,7 @@ public class DragonSlayer {
                             addToNews("Move onto the next room whenever you're ready.");
                         }
                     } else {
-                        currentDragon = currentRoom.nextDragon();;
+                        currentDragon = currentRoom.nextDragon();
                     }
                 } else {
                     int dmg = currentDragon.attack();
@@ -59,21 +61,52 @@ public class DragonSlayer {
                 startedFight = false;
             }
         }
+        Utility.clearScreen();
         if (Room.getRoom() == 6 && !player.isDead()) {
             System.out.println("Hooray, I cleared all the rooms and killed all the dragons!");
             Utility.sleep(1500);
             System.out.println("W-wait, why am I getting arrested?");
             Utility.sleep(1000);
             System.out.println("Killing all those dragons is considered mass murder?");
-            Utility.sleep(500);
+            Utility.sleep(666);
             System.out.println("I'm innocent, I swear!\n");
+            Utility.sleep(444);
             System.out.println("\uD83D\uDC51\uD83D\uDE93" + Utility.RED + "You win?" + Utility.RESET + "\uD83D\uDE93\uD83D\uDC51");
         } else {
             System.out.println("Noooo...I don't want to die...before...I search every...room...*passes away cutely*");
             System.out.println("Game Over: You died and now you're dead");
         }
+        System.out.println("\nGoing back to main menu...please wait 10 seconds...");
+        Utility.sleep(10000);
+        addToNews("Thank you for waiting.\n");
+        gameMenu();
     }
 
+    public void gameMenu() {
+        Utility.clearScreen();
+        System.out.println(newsMessage);
+        newsMessage = "";
+        System.out.println("(1) Start a new game");
+        System.out.println("(2) Check highest score");
+        System.out.println("(3) Quit game");
+        System.out.print("Enter an option: ");
+        int choice = scan.nextInt();
+        scan.nextLine();
+        if (choice == 1) {
+            Room.resetScore();
+            Room.resetRoom();
+            play();
+        } else if (choice == 2) {
+            addToNews("Player's highest score: " + Room.getHighscore() + "\n");
+            gameMenu();
+        } else if (choice == 3) {
+            Utility.clearScreen();
+            System.out.println("Thanks for playing. Come back soon!");
+        } else {
+            addToNews("Not a valid option.");
+            gameMenu();
+        }
+    }
     public boolean menu() {
         System.out.println("(1) Search room");
         System.out.println("(2) Go to the town's shop");
@@ -95,21 +128,33 @@ public class DragonSlayer {
             inventory();
             return false;
         } else if (choice == 4) {
-            startedFight = true;
-            int dmg = player.attack();
-            addToNews("You deal " + dmg + " damage to the dragon.");
-            currentDragon.takeDMG(dmg, player);
+            if (currentRoom.dragonsDead()) {
+                addToNews("All dragons are dead already.");
+            } else {
+                startedFight = true;
+                int dmg = player.attack();
+                addToNews("You deal " + dmg + " damage to the dragon.");
+                currentDragon.takeDMG(dmg, player);
+                if (currentDragon.checkDead()) {
+                    addToNews("This dragon has been slain.");
+                    Room.increaseScore();
+                }
+            }
             return false;
         } else if (choice == 5) {
             if (currentRoom.dragonsDead() && Room.getRoom() != 6) {
                 currentRoom = Room.enter();
+                currentDragon = currentRoom.nextDragon();
             } else {
                 addToNews("Not all the dragons in this room have been killed.");
             }
             return false;
-        } else {
+        } else if (choice == 6){
             System.out.println("The dragon takes a final slash at you, fatally wounding you.\nOh no, you're bleeding out.");
             return true;
+        } else {
+            addToNews("I forgot what I was doing.\n" + Utility.CYAN + "Dev: \"Hey, that's not an option!\"" + Utility.RESET);
+            return false;
         }
     }
 
@@ -130,20 +175,20 @@ public class DragonSlayer {
                 System.out.println(item.getInfo());
             }
         }
-        System.out.println("\nEnter the first letter of the item you would like to use/toggle(i.e. H/h for HP Pot).\nEnter \"exit\" to exit inventory: ");
+        System.out.print("\nEnter the first letter of the item you would like to use/toggle(i.e. H/h for HP Pot).\nEnter \"exit\" to exit inventory: ");
         String item = scan.nextLine().toLowerCase();
         if (!item.equals("exit")) {
-            if (item.equals(inventory[0].getName().substring(0,1).toLowerCase())) {
+            if (item.equals("h")) {
                player.useHPPot(inventory[0]);
-            } else if (item.equals(inventory[1].getName().substring(0,1).toLowerCase())) {
+            } else if (item.equals("s")) {
                 player.useStrengthPotion(inventory[1]);
-            } else if (item.equals(inventory[2].getName().substring(0,1).toLowerCase())) {
+            } else if (item.equals("f")) {
                 player.useFocusPotion(inventory[2]);
-            } else if (item.equals(inventory[3].getName().substring(0,1).toLowerCase())) {
+            } else if (item.equals("c")) {
                 player.useBook(inventory[3]);
-            } else if (item.equals(inventory[4].getName().substring(0,1).toLowerCase())) {
+            } else if (item.equals("a")) {
                 player.useArmour(inventory[4]);
-            } else if (item.equals(inventory[5].getName().substring(0,1).toLowerCase())) {
+            } else if (item.equals("m")) {
                 player.toggleMachineGun(inventory[5]);
             } else {
                 addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");

@@ -1,6 +1,8 @@
 public class Room {
-    public static String[] names = new String[]{"The Entrance", "The Nursery", "The Den", "The Nest", "L̸̬̬͋͗̄̋̃o̶͎̦̎̅͋͘ş̸̗̬͇͎̖̞̀̈́͘ț̷̍ Corridor", "The Center"};
-    private static int room = 0;
+    public static String[] names = new String[]{"The Entrance", "The Nursery", "The Den", "The Nest", "Lost Corridor", "The Center"};
+    private static int room = -1;
+    private static int highscore = 0;
+    private static int score = 0;
     private Dragon[] dragons;
     private int currentFight;
     private int remaining;
@@ -11,14 +13,14 @@ public class Room {
         room++;
         int rmNum = room;
         roomName = names[rmNum];
-        boolean lost = rmNum == 5 && (int) (Math.random() * 10) == 0;
-        //Lost adds a somewhat creepy aspect to the 5th room in addition to the name, makes all dragons level 3
+        boolean lost = rmNum == 5 && (int) (Math.random() * 10) == 0; //just to keep it interesting
         if (rmNum == 5 || rmNum == 6) { //Difficult is greatly increased for the final two rooms
             rmNum = 8;
         }
+        int diffIncrease = (int) (Math.random() * 3);
         rmNum /= 2;
-        dragons = new Dragon[rmNum + 1];
-        for (int i = 0; i < rmNum + 1; i++) {
+        dragons = new Dragon[rmNum + 1 + diffIncrease];
+        for (int i = 0; i < dragons.length; i++) {
             dragons[i] = new Dragon(lost);
         }
         currentFight = -1;
@@ -29,10 +31,29 @@ public class Room {
     public static Room enter() {
         Room room = new Room();
         DragonSlayer.addToNews("You have entered Room " + getRoom() + ", " + room.getRoomName());
-        return new Room();
+        return room;
+    }
+
+    public static int getHighscore() {
+        return highscore;
+    }
+    public static void increaseScore() {
+        score++;
+    }
+    public static int getScore() {
+        return score;
+    }
+    public static void resetScore() {
+        score = 0;
+    }
+    public static void resetRoom() {
+        room = -1;
     }
 
     public Dragon nextDragon() {
+        if (score > highscore) {
+            highscore = score;
+        }
         currentFight++;
         remaining--;
         return dragons[currentFight];
@@ -44,13 +65,16 @@ public class Room {
                 allDead = false;
             }
         }
+        if (allDead) {
+            remaining = 0;
+        }
         return allDead;
     }
     public int getRemaining() {
         return remaining;
     }
     public static int getRoom() {
-        return room;
+        return room + 1;
     }
     public String getRoomName() {
         return roomName;

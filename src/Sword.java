@@ -4,37 +4,41 @@ public class Sword {
     private int crit;
     public Sword() {
         atk = 10;
-        dodge = 20;
+        dodge = 25;
         crit = 30;
     }
 
     public int getAtk() {
         int random = (int) (Math.random() * 100) + 1;
         if (crit >= random) {
-            return atk * 2;
+            DragonSlayer.addToNews("You got a critical hit and deal twice the normal amount.");
+            return (atk + (int) Math.sqrt(random)) * 2;
         }
         return atk + (int) Math.sqrt(random);
+    }
+    public boolean failedDodge() {
+        return (int) (Math.random() * 100) > dodge;
     }
 
     public void upgrade() {
         int random = (int) (Math.random() * 4) + 1;
         if (random == 1) {
-            atk += 5;
+            atk += 10;
             DragonSlayer.addToNews("Your sword's attack has been upgraded to " + atk + ".");
         }
         if (random == 2) {
-            dodge += 5;
+            dodge += 10;
             DragonSlayer.addToNews("Your dodge rate has increased to " + dodge + "%.");
         }
         if (random == 3) {
-            crit += 5;
+            crit += 10;
             DragonSlayer.addToNews("Your critical hit rate has increased to " + crit + "%.");
         }
         if (random == 4) {
-            atk += 10;
-            dodge += 10;
-            crit += 10;
-            DragonSlayer.addToNews("Lucky! All sword stats have increased by 10.\n" + swordStats());
+            atk += 20;
+            dodge += 20;
+            crit += 20;
+            DragonSlayer.addToNews("Lucky! All sword stats have increased by 20.");
         }
     }
 
