@@ -178,20 +178,15 @@ public class DragonSlayer {
         System.out.print("\nEnter the first letter of the item you would like to use/toggle(i.e. H/h for HP Pot).\nEnter \"exit\" to exit inventory: ");
         String item = scan.nextLine().toLowerCase();
         if (!item.equals("exit")) {
-            if (item.equals("h")) {
-               player.useHPPot(inventory[0]);
-            } else if (item.equals("s")) {
-                player.useStrengthPotion(inventory[1]);
-            } else if (item.equals("f")) {
-                player.useFocusPotion(inventory[2]);
-            } else if (item.equals("c")) {
-                player.useBook(inventory[3]);
-            } else if (item.equals("a")) {
-                player.useArmour(inventory[4]);
-            } else if (item.equals("m")) {
-                player.toggleMachineGun(inventory[5]);
-            } else {
-                addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");
+            switch (item) {
+                case "h" -> player.useHPPot(inventory[0]);
+                case "s" -> player.useStrengthPotion(inventory[1]);
+                case "f" -> player.useFocusPotion(inventory[2]);
+                case "c" -> player.useBook(inventory[3]);
+                case "a" -> player.useArmour(inventory[4]);
+                case "m" -> player.toggleMachineGun(inventory[5]);
+                default ->
+                        addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");
             }
         }
     }

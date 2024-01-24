@@ -118,7 +118,7 @@ public class Player {
             armour.decreaseAmountOwned();
             DragonSlayer.addToNews("I put on my armour, hopefully it doesn't break.");
         } else {
-
+            DragonSlayer.addToNews("Seems like I don't have that item. Hopefully a magical fairy blesses me with something...");
         }
     }
     public void toggleMachineGun(ItemInfo machineGun) {
