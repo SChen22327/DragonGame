@@ -32,9 +32,15 @@ public class Player {
 
     public void takeDMG(int dmg) {
         if (armour) {
-            health -= (int) (dmg * 0.85);
-            if ((int) (Math.random() * 5) == 0) {
-                armour = false;
+            dmg *= 0.85;
+            if (dmg == 0) {
+                DragonSlayer.addToNews("Ha, my armour negates the damage. No damage!");
+            } else {
+                health -= (int) (dmg * 0.85);
+                DragonSlayer.addToNews("Ouch, the dragon hits me with " + (int) (dmg * 0.85) + " damage!");
+                if ((int) (Math.random() * 5) == 0) {
+                    armour = false;
+                }
             }
         } else {
             health -= dmg;
@@ -105,6 +111,7 @@ public class Player {
         if (armour.hasItem()) {
             this.armour = true;
             armour.decreaseAmountOwned();
+            DragonSlayer.addToNews("I put on my armour, hopefully it doesn't break.");
         } else {
             DragonSlayer.addToNews("I searched my bag but nothing turns up. I guess I don't have one.");
         }

@@ -51,7 +51,6 @@ public class DragonSlayer {
                 } else {
                     int dmg = currentDragon.attack();
                     player.takeDMG(dmg);
-                    addToNews("Ouch, the dragon hits me with " + dmg + " damage!");
                     if (player.isDead()) {
                         gameOver = true;
                     }

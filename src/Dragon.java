@@ -11,7 +11,7 @@ public class Dragon {
     }
 
     public int attack() {
-        return (int) (Math.random() * 10 * level) + level;
+        return (int) (Math.random() * (10 * level)) + level;
     }
 
     public void takeDMG(int dmg, Player player) {
