@@ -9,7 +9,7 @@ public class Player {
         health = 100;
         sword = new Sword();
         this.name = name;
-        gold = 100;
+        gold = 50;
         armour = false;
         machineGun = false;
     }
